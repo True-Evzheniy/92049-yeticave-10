@@ -156,3 +156,21 @@ function format_price($price) {
     return $price;
 }
 
+/**
+ * Рекурсивно преобразует специальные символы в HTML-сущности
+ * @param array $array
+ * @return array
+ */
+function makeSafeData(array $array) {
+    return array_map( function ($item) {
+        if(is_array($item)){
+            return makeSafeData($item);
+        }
+        if(is_string($item)) {
+            return htmlspecialchars($item);
+        }
+        return $item;
+    }, $array);
+}
+
+
