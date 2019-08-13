@@ -43,8 +43,8 @@ $lots = [
     ],
 ];
 
-$categories = makeSafeData($categories);
-$lots = makeSafeData($lots);
+$categories = make_safe_data($categories);
+$lots = make_safe_data($lots);
 $main_data= ['categories' => $categories, 'lots' => $lots];
 $main_content = include_template('main.php', $main_data);
 $layout_data = [

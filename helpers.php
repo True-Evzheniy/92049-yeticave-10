@@ -161,10 +161,10 @@ function format_price($price) {
  * @param array $array
  * @return array
  */
-function makeSafeData(array $array) {
+function make_safe_data(array $array) {
     return array_map( function ($item) {
         if(is_array($item)){
-            return makeSafeData($item);
+            return make_safe_data($item);
         }
         if(is_string($item)) {
             return htmlspecialchars($item);
