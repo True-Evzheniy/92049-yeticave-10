@@ -52,6 +52,7 @@ $layout_data = [
     'categories' => $categories,
     'user_name' => $user_name,
     'is_auth' => $is_auth,
+    'title' => 'Главная страница',
 ];
 $layout_content = include_template('layout.php', $layout_data);
 
