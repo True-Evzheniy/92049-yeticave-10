@@ -143,4 +143,16 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+/**
+ * Форматирует цену, разделяя тысячи, округляя до целых и добавдляя символ рубля
+ * @param float|integer $price
+ * @return string
+ */
+function format_price($price) {
+    $price = ceil($price);
+    $price = number_format($price, 0, '.', ' ');
+    $price .= ' ₽';
+
+    return $price;
+}
 

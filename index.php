@@ -42,22 +42,15 @@ $lots = [
         'picture_url' => 'img/lot-6.jpg',
     ],
 ];
-function format_price($price) {
-    $price = ceil($price);
-    $price = number_format($price, 0, '.', ' ');
-    $price .= ' ₽';
 
-    return $price;
-}
-
+$main_data= ['categories' => $categories, 'lots' => $lots];
+$main_content = include_template('main.php', $main_data);
 $layout_data = [
     'main_content' => $main_content,
     'categories' => $categories,
     'user_name' => $user_name,
     'is_auth' => $is_auth,
 ];
-$main_data= ['categories' => $categories, 'lots' => $lots];
-$main_content = include_template('main.php', $main_data);
 $layout_content = include_template('layout.php', $layout_data);
 
 print($layout_content);
