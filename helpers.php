@@ -143,4 +143,34 @@ function include_template($name, array $data = []) {
     return $result;
 }
 
+/**
+ * Форматирует цену, разделяя тысячи, округляя до целых и добавдляя символ рубля
+ * @param float|integer $price
+ * @return string
+ */
+function format_price($price) {
+    $price = ceil($price);
+    $price = number_format($price, 0, '.', ' ');
+    $price .= ' ₽';
+
+    return $price;
+}
+
+/**
+ * Рекурсивно преобразует специальные символы в HTML-сущности
+ * @param array $array
+ * @return array
+ */
+function make_safe_data(array $array) {
+    return array_map( function ($item) {
+        if(is_array($item)){
+            return make_safe_data($item);
+        }
+        if(is_string($item)) {
+            return htmlspecialchars($item);
+        }
+        return $item;
+    }, $array);
+}
+
 
