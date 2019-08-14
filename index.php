@@ -1,5 +1,6 @@
 <?php
 require_once('./helpers.php');
+date_default_timezone_set("Europe/Moscow");
 
 $is_auth = rand(0, 1);
 $user_name = 'Евгений Артамонов';
@@ -10,36 +11,42 @@ $lots = [
         'category' => 'Доски и лыжи	',
         'price' => 10999,
         'picture_url' => 'img/lot-1.jpg',
+        'expiry_date' => '2019-08-15',
     ],
     [
         'name' => 'DC Ply Mens 2016/2017 Snowboard',
         'category' => 'Доски и лыжи',
         'price' => 159999,
         'picture_url' => 'img/lot-2.jpg',
+        'expiry_date' => '2019-08-16',
     ],
     [
         'name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
         'category' => 'Крепления',
         'price' => 8000,
         'picture_url' => 'img/lot-3.jpg',
+        'expiry_date' => '2019-08-17',
     ],
     [
         'name' => 'img/lot-3.jpg',
         'category' => 'Ботинки',
         'price' => 10999,
         'picture_url' => 'img/lot-4.jpg',
+        'expiry_date' => '2019-08-18',
     ],
     [
         'name' => 'Куртка для сноуборда DC Mutiny Charocal',
         'category' => 'Одежда',
         'price' => 7500,
         'picture_url' => 'img/lot-5.jpg',
+        'expiry_date' => '2019-08-19',
     ],
     [
         'name' => 'Маска Oakley Canopy',
         'category' => 'Разное',
         'price' => 5400,
         'picture_url' => 'img/lot-6.jpg',
+        'expiry_date' => '2019-08-20',
     ],
 ];
 

@@ -173,4 +173,49 @@ function make_safe_data(array $array) {
     }, $array);
 }
 
+/**
+ * Количество часов и минут до даты
+ * @param $date_str
+ * @return array
+ */
+function get_time_until($date_str) {
+    $finish_date = strtotime($date_str);
+    $now = time();
+    $diff = $finish_date - $now;
+    if ($diff <= 0) {
+        return [0, 0];
+    }
+
+    $hours = ceil($diff / 3600);
+    $minutes = ceil(($diff % 3600) / 60);
+
+    return [$hours, $minutes];
+}
+
+
+/**
+ * Провека на близость даты
+ * @param $date_str
+ * @return bool
+ */
+function is_close_to($date_str) {
+    [$hours] = get_time_until($date_str);
+
+    return !boolval($hours);
+}
+
+/**
+ * Возвращает формат таймера
+ * @param array $time
+ * @return string
+ */
+function get_timer($date_str) {
+    [$hours, $minutes] = get_time_until($date_str);
+    $padded_hours = sprintf("%02d", $hours);
+    $padded_minutes = sprintf("%02d", $minutes);
+
+    return "{$padded_hours}:{$padded_minutes}";
+}
+
+
 
