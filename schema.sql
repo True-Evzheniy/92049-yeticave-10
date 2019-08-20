@@ -52,8 +52,11 @@ CREATE INDEX symbol_code ON categories(symbol_code);
 CREATE INDEX category ON lots(category);
 CREATE INDEX winner ON lots(winner);
 CREATE INDEX creator ON lots(creator);
+CREATE INDEX creation_date ON lots(creation_date);
+CREATE INDEX completion_date ON lots(completion_date);
 
 CREATE INDEX creator ON bets(creator);
 CREATE INDEX lot ON bets(lot);
+CREATE INDEX amount ON bets(amount);
 
 
