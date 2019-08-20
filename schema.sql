@@ -47,3 +47,13 @@ CREATE TABLE users
 );
 
 
+CREATE INDEX symbol_code ON categories(symbol_code);
+
+CREATE INDEX category ON lots(category);
+CREATE INDEX winner ON lots(winner);
+CREATE INDEX creator ON lots(creator);
+
+CREATE INDEX creator ON bets(creator);
+CREATE INDEX lot ON bets(lot);
+
+
