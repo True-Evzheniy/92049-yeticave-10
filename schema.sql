@@ -19,7 +19,7 @@ CREATE TABLE lots
   description     TINYTEXT  NOT NULL,
   picture         CHAR(128) NOT NULL,
   start_price     INT       NOT NULL,
-  completion_date DATE      NOT NULL,
+  expiry_date     DATE      NOT NULL,
   bet_step        INT       NOT NULL,
   creator         INT       NOT NULL,
   winner          INT,
@@ -53,7 +53,7 @@ CREATE INDEX category ON lots(category);
 CREATE INDEX winner ON lots(winner);
 CREATE INDEX creator ON lots(creator);
 CREATE INDEX creation_date ON lots(creation_date);
-CREATE INDEX completion_date ON lots(completion_date);
+CREATE INDEX expiry_date ON lots(expiry_date);
 
 CREATE INDEX creator ON bets(creator);
 CREATE INDEX lot ON bets(lot);
