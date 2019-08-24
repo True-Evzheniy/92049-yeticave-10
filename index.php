@@ -11,8 +11,7 @@ $lots = $link->query("SELECT
         start_price as price,
         picture, amount,
         c.name as category,
-        expiry_date,
-        c.symbol_code as category_code
+        expiry_date
 FROM lots
     LEFT JOIN bets ON lots.id = bets.lot
     LEFT JOIN categories c ON lots.category = c.id
