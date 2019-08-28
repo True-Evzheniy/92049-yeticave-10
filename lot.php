@@ -40,8 +40,8 @@ function get_lot($link)
                    categories.name as category,
                    description
             FROM lots
-            INNER JOIN categories ON lots.category = categories.id
-            INNER JOIN bets b ON lots.id = b.lot
+            LEFT JOIN categories ON lots.category = categories.id
+            LEFT JOIN bets b ON lots.id = b.lot
             WHERE lots.id = ?
             GROUP BY lots.id;";
 
