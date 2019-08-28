@@ -1,6 +1,7 @@
 <?php
 require_once('./init.php');
 $lots = $link->query("SELECT 
+        lots.id,
         picture,
         lots.name,
         start_price as price,
