@@ -114,7 +114,7 @@ function validate_date($date)
     }
 }
 
-function check_user_file(&$errors, &$lot) {
+function check_user_file(&$errors) {
     if(isset($_FILES['userfile']) && file_exists($_FILES['userfile']['tmp_name'])){
         $tmp_name = $_FILES['userfile']['tmp_name'];
         $mime_type = mime_content_type($tmp_name);
