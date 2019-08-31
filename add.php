@@ -93,6 +93,7 @@ function validate_correct_length($str, $min = 1, $max = 128)
     if ($len < $min or $len > $max) {
         return "Значение должно быть от $min до $max символов";
     }
+    return null;
 }
 
 function validate_positive_integer($number)
@@ -100,6 +101,7 @@ function validate_positive_integer($number)
     if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) <= 1) {
         return 'Значение должно быть целым и больше нуля';
     }
+    return null;
 }
 
 function validate_date($date)
@@ -112,6 +114,7 @@ function validate_date($date)
     if($input < $tomorrow) {
         return 'Введите дату не позднее ' . $tomorrow->format('Y-m-d');
     }
+    return null;
 }
 
 function check_user_file(&$errors) {
@@ -124,6 +127,7 @@ function check_user_file(&$errors) {
     } else {
         $errors['userfile'] = 'Загрузите изображение лота';
     }
+    return null;
 }
 
 function process_user_file(&$lot) {
@@ -133,6 +137,7 @@ function process_user_file(&$lot) {
     $path = 'uploads/' . $file_name;
     $lot['picture'] = $path;
     move_uploaded_file($tmp_name, $path);
+    return null;
 }
 
 function get_post_val($name)
