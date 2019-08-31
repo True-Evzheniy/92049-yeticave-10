@@ -109,10 +109,15 @@ function validate_date($date)
     if (!is_date_valid($date)) {
         return 'Укажите дату в формате ГГГГ-ММ-ДД';
     }
-    $input = new DateTime($date);
-    $tomorrow = new DateTime('tomorrow');
-    if($input < $tomorrow) {
-        return 'Введите дату не позднее ' . $tomorrow->format('Y-m-d');
+    try {
+        $input = new DateTime($date);
+        $tomorrow = new DateTime('tomorrow');
+        if($input < $tomorrow) {
+            return 'Введите дату не позднее ' . $tomorrow->format('Y-m-d');
+        }
+    } catch (Exception $error) {
+        print_r($error->getMessage());
+        die();
     }
     return null;
 }
