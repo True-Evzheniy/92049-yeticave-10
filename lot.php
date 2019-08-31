@@ -12,7 +12,7 @@ if($lot) {
     $error_page = include_template('404.php', compact('navigation'));
     $layout_data += [
         'main_content' => $error_page,
-        'title' => 'Cтраница не найдена',
+        'title' => 'Страница не найдена',
     ];
     http_response_code(404);
 }
@@ -22,7 +22,7 @@ $layout_content = include_template('layout.php', $layout_data);
 print($layout_content);
 
 /**
- * @param $link
+ * @param $link mysqli
  * @return false | array
  */
 function get_lot($link)
