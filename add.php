@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die();
     }
 
-    process_user_file($lot);
+    $lot['picture'] = store_file($_FILES['userfile']);
 
     $sql = 'INSERT INTO lots (creation_date, name, description, picture, start_price, expiry_date, bet_step, creator, category)
                 VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
@@ -128,14 +128,13 @@ function check_user_file(&$errors) {
     return null;
 }
 
-function process_user_file(&$lot) {
-    $tmp_name = $_FILES['userfile']['tmp_name'];
+function store_file($file) {
+    $tmp_name = $file['tmp_name'];
     $mime_type = mime_content_type($tmp_name);
     $file_name = uniqid() . get_extension_by_mime($mime_type);
     $path = 'uploads/' . $file_name;
-    $lot['picture'] = $path;
     move_uploaded_file($tmp_name, $path);
-    return null;
+    return $path;
 }
 
 function get_post_val($name)
