@@ -8,43 +8,41 @@ $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot = $_POST;
 
-    $required_fields = [
-        'name',
-        'description',
-        'start_price',
-        'expiry_date',
-        'bet_step',
-        'category',
-    ];
-
-    foreach ($required_fields as $field) {
-        if (empty($lot[$field])) {
-            $errors[$field] = 'Поле не заполнено';
-        };
-    }
     $rules = [
-        'name' => function ($value) {
-            return validate_correct_length($value);
+        'name' => function ($key, $lot) {
+            return
+                validate_filling($key, $lot) ??
+                validate_correct_length($lot[$key]);
         },
-        'description' => function ($value) {
-            return validate_correct_length($value);
+
+        'description' => function ($key, $lot) {
+            return
+                validate_filling($key, $lot) ??
+                validate_correct_length($lot[$key]);
         },
-        'start_price' => function ($value) {
-            return validate_positive_integer($value);
+        'start_price' => function ($key, $lot) {
+            return
+                validate_filling($key, $lot) ??
+                validate_positive_integer($lot[$key]);
         },
-        'expiry_date' => function ($value) {
-            return validate_date($value);
+        'expiry_date' => function ($key, $lot) {
+            return
+                validate_filling($key, $lot) ??
+                validate_date($lot[$key]);
         },
-        'bet_step' => function($value) {
-            return validate_positive_integer($value);
+        'bet_step' => function ($key, $lot) {
+            return
+                validate_filling($key, $lot) ??
+                validate_positive_integer($lot[$key]);
+        },
+        'category' => function ($key, $lot) {
+            return validate_filling($key, $lot);
         },
     ];
 
-    foreach ($lot as $key => $value) {
-        if (isset($rules[$key]) && !isset($errors[$key])) {
+    foreach ($rules as $key => $value) {
             $rule = $rules[$key];
-            $errors[$key] = $rule($lot[$key]);
-        }
+            $errors[$key] = $rule($key, $lot);
     }
 
     check_user_file($errors, $lot);
@@ -155,5 +153,13 @@ function get_extension_by_mime($type) {
 function check_mime_type($mime_type, $allowed_types = ['image/png', 'image/jpeg'])
 {
     return in_array($mime_type, $allowed_types);
+}
+
+function validate_filling($field, $target)
+{
+    if (empty($target[$field])) {
+        return "Поле обязательно";
+    }
+    return null;
 }
 
