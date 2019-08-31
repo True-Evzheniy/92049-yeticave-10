@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'category' => function ($key, $lot) {
             return validate_filling($key, $lot);
         },
+        'userfile' => function($key) {
+            return check_user_file($key);
+        }
     ];
 
     foreach ($rules as $key => $value) {
@@ -45,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[$key] = $rule($key, $lot);
     }
 
-    check_user_file($errors, $lot);
     $errors = array_filter($errors);
     if(count($errors)) {
         $add_page = include_template('add-lot.php', compact('navigation', 'categories', 'errors'));
@@ -115,15 +117,15 @@ function validate_date($date)
     return null;
 }
 
-function check_user_file(&$errors) {
-    if(isset($_FILES['userfile']) && file_exists($_FILES['userfile']['tmp_name'])){
-        $tmp_name = $_FILES['userfile']['tmp_name'];
+function check_user_file($field) {
+    if(isset($_FILES[$field]) && file_exists($_FILES[$field]['tmp_name'])){
+        $tmp_name = $_FILES[$field]['tmp_name'];
         $mime_type = mime_content_type($tmp_name);
         if(!check_mime_type($mime_type)) {
-            $errors['userfile'] = 'Загрузите изображение в формате png или jpg';
+            return 'Загрузите изображение в формате png или jpg';
         }
     } else {
-        $errors['userfile'] = 'Загрузите изображение лота';
+        return 'Загрузите изображение лота';
     }
     return null;
 }
