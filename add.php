@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     foreach ($required_fields as $field) {
-        if (empty($_POST[$field])) {
+        if (empty($lot[$field])) {
             $errors[$field] = 'Поле не заполнено';
         };
     }
@@ -40,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         },
     ];
 
-    foreach ($_POST as $key => $value) {
+    foreach ($lot as $key => $value) {
         if (isset($rules[$key]) && !isset($errors[$key])) {
             $rule = $rules[$key];
-            $errors[$key] = $rule($_POST[$key]);
+            $errors[$key] = $rule($lot[$key]);
         }
     }
 
