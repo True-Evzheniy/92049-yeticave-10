@@ -217,5 +217,173 @@ function get_timer($date_str) {
     return "{$padded_hours}:{$padded_minutes}";
 }
 
+/**
+ * @param string $str
+ * @param int $min
+ * @param int $max
+ * @return string|null
+ */
+function validate_correct_length($str, $min = 1, $max = 128)
+{
+    $len = strlen($str);
+    if ($len < $min or $len > $max) {
+        return "Значение должно быть от $min до $max символов";
+    }
+    return null;
+}
+
+/**
+ * @param string $number
+ * @return string|null
+ */
+function validate_positive_integer($number)
+{
+    if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) <= 1) {
+        return 'Значение должно быть целым и больше нуля';
+    }
+    return null;
+}
+
+/**
+ * @param string $date
+ * @return string|null
+ */
+function validate_date($date)
+{
+    if (!is_date_valid($date)) {
+        return 'Укажите дату в формате ГГГГ-ММ-ДД';
+    }
+    try {
+        $input = new DateTime($date);
+        $tomorrow = new DateTime('tomorrow');
+        if($input < $tomorrow) {
+            return 'Введите дату не позднее ' . $tomorrow->format('Y-m-d');
+        }
+    } catch (Exception $error) {
+        print_r($error->getMessage());
+        die();
+    }
+    return null;
+}
+
+/**
+ * @param string $field
+ * @return string|null
+ */
+function check_user_file($field) {
+    if(isset($_FILES[$field]) && file_exists($_FILES[$field]['tmp_name'])){
+        $tmp_name = $_FILES[$field]['tmp_name'];
+        $mime_type = mime_content_type($tmp_name);
+        if(!check_mime_type($mime_type)) {
+            return 'Загрузите изображение в формате png или jpg';
+        }
+    } else {
+        return 'Загрузите изображение лота';
+    }
+    return null;
+}
+
+/**
+ * @param array $file
+ * @return string
+ */
+function store_file($file) {
+    $tmp_name = $file['tmp_name'];
+    $mime_type = mime_content_type($tmp_name);
+    $file_name = uniqid() . get_extension_by_mime($mime_type);
+    $path = 'uploads/' . $file_name;
+    move_uploaded_file($tmp_name, $path);
+    return $path;
+}
+
+/**
+ * @param string $name
+ * @return mixed|string
+ */
+function get_post_val($name)
+{
+    return $_POST[$name] ?? '';
+}
+
+
+/**
+ * @param string $type
+ * @return string
+ */
+function get_extension_by_mime($type) {
+    $map = [
+        'image/png' => '.png',
+        'image/jpeg' => '.jpg'
+    ];
+    return $map[$type] ?? '';
+}
+
+/**
+ * @param string $mime_type
+ * @param array $allowed_types
+ * @return bool
+ */
+function check_mime_type($mime_type, $allowed_types = ['image/png', 'image/jpeg'])
+{
+    return in_array($mime_type, $allowed_types);
+}
+
+/**
+ * @param $field string
+ * @param $target array
+ * @return string|null
+ */
+function validate_filling($field, $target)
+{
+    if (empty($target[$field])) {
+        return "Поле обязательно";
+    }
+    return null;
+}
+
+/**
+ * @param $name string
+ * @return string|null
+ */
+function validate_email($name)
+{
+    if (!filter_var($name, FILTER_VALIDATE_EMAIL)) {
+        return "Введите корректный email";
+    }
+    return null;
+}
+
+/**
+ * @param $email string
+ * @param $link mysqli
+ * @return bool
+ */
+function is_uniq_user_email($email, $link) {
+    $safe_email = $link->real_escape_string($email);
+    $res = $link->query("SELECT id FROM users WHERE email = '{$safe_email}'");
+    return $res->num_rows === 0;
+}
+
+/**
+ * @param $email
+ * @param $link mysqli
+ * @return string|null
+ */
+function validate_uniq_email($email, $link) {
+    if(!is_uniq_user_email($email, $link)) {
+        return 'Пользователь с этим email уже зарегистрирован';
+    }
+    return null;
+}
+
+/**
+ * @param string $name
+ * @param array $errors
+ * @param string $class
+ * @return string
+ */
+function invalid_class($name, $errors, $class='form__item--invalid') {
+    return (isset($errors[$name])) ? $class : '';
+}
 
 

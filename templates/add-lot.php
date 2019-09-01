@@ -1,8 +1,3 @@
-<?php
-    function invalid_class($name, $errors) {
-        return (isset($errors[$name])) ? 'form__item--invalid' : '';
-    }
-?>
 <link href="../css/flatpickr.min.css" rel="stylesheet">
 <main>
     <?= $navigation; ?>

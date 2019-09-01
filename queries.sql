@@ -23,19 +23,16 @@ INSERT INTO users
 SET email    ='vasyafrommoscow@yandex.ru',
     name     = 'Вася',
     password = 'qwerty',
-    avatar   = '/img/vasya.jpg',
     contacts = 'Москва';
 INSERT INTO users
 SET email    ='petya@mail.ru',
     name     = 'Петя',
     password = 'strong9password',
-    avatar   = '/img/petya.jpg',
     contacts = 'Воркута';
 INSERT INTO users
 SET email    ='maria@gmail.com',
     name     = 'Маша',
     password = 'mybirthday2',
-    avatar   = '/img/masha.jpg',
     contacts = 'Новосибирск';
 
 # Fill lots
