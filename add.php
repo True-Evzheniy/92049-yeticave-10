@@ -1,5 +1,9 @@
 <?php
 require_once('./init.php');
+if(!$is_auth) {
+    header('HTTP/1.0 403 Forbidden');
+    exit();
+}
 $layout_data += [
     'title' => 'Добавление лота',
 ];

@@ -13,8 +13,9 @@ if ($categories) {
     print_r($link->error);
 }
 
-$is_auth = rand(0, 1);
-$user_name = 'Евгений Артамонов';
+$is_auth = !empty($_SESSION);
+$user_name = $is_auth ? $_SESSION['user']['name'] : null;
+
 $categories = make_safe_data($categories);
 $navigation = include_template('navigation.php', compact('categories'));
 $layout_data = [
