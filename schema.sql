@@ -42,7 +42,6 @@ CREATE TABLE users
   email             CHAR(128) UNIQUE NOT NULL,
   name              CHAR(64)         NOT NULL,
   password          CHAR(64)         NOT NULL,
-  avatar            CHAR(128)        NOT NULL,
   contacts          TINYTEXT         NOT NULL
 );
 
