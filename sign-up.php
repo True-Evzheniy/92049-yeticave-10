@@ -1,6 +1,10 @@
 <?php
 require_once('./init.php');
 $errors = [];
+if($is_auth) {
+    header('HTTP/1.0 403 Forbidden');
+    exit();
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sign_up = $_POST;
 
@@ -43,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $sign_up['contacts']
         ]);
         $stmt->execute();
-        header("Location: pages/login.html");
+        header("Location: login.php");
     }
 }
 
