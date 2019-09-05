@@ -28,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $sql = "INSERT INTO bets(amount, creator, lot) VALUES (?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, [get_float_from_currency_string($_POST['cost']), $_SESSION['user']['id'], $id]);
         $stmt->execute();
-        header("Location: /lot.php?id={$id}");
-        exit();
+        $lot = get_lot_by_id($id, $link);
+        $bets = get_bets_for_lot($id, $link);
     };
 }
 
