@@ -386,4 +386,11 @@ function invalid_class($name, $errors, $class='form__item--invalid') {
     return (isset($errors[$name])) ? $class : '';
 }
 
+/**
+ * @param string $value
+ * @return float
+ */
+function get_float_from_currency_string($value) {
+    return floatval(preg_replace('/[^\d.]+/', '', $value));
+}
 
