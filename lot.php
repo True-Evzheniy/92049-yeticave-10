@@ -132,30 +132,9 @@ function validate_min_bet($value, $min_bet)
 }
 
 /**
- * @param $date
- * @return DateTime|string
- * @throws Exception
+ * @param $lot
+ * @return bool
  */
-function get_date_for_history_bets($date)
-{
-    try {
-        $date = new DateTime($date);
-    } catch (Exception $e) {
-        return $date;
-    }
-    $now = new DateTime();
-    $interval = $date->diff($now);
-    if ($interval->days > 1) {
-        return $date->format('d.m.Y в h:i');
-    }
-    if ($interval->h >= 1) {
-        $word =  get_noun_plural_form($interval->h, 'час', 'часа', 'часов');
-        return "{$interval->h} {$word} назад";
-    }
-    $word =  get_noun_plural_form($interval->m, 'минуту', 'минуты', 'минут');
-    return "{$interval->m} {$word} назад";
-}
-
 function is_active_lot($lot) {
     $finish_date = strtotime($lot['expiry_date']);
     $now = time();

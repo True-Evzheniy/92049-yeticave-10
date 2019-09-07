@@ -42,7 +42,7 @@
                             <tr class="history__item">
                                 <td class="history__name"><?= $bet['name']?></td>
                                 <td class="history__price"><?= format_price($bet['amount'])?></td>
-                                <td class="history__time"><?=get_date_for_history_bets($bet['date'])?></td>
+                                <td class="history__time"><?=get_human_readable_date($bet['date'])?></td>
                             </tr>
                         <?php endforeach; ?>
                     </table>
