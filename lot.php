@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     };
 }
 
-if ($lot && $bets) {
+if ($lot) {
     $lot_page = include_template('lot.php', compact('lot', 'errors', 'bets', 'navigation', 'visible_form'));
     $layout_data += [
         'main_content' => $lot_page,
