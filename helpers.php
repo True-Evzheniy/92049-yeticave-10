@@ -238,7 +238,7 @@ function validate_correct_length($str, $min = 1, $max = 128)
  */
 function validate_positive_integer($number)
 {
-    if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) <= 1) {
+    if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) < 1) {
         return 'Значение должно быть целым и больше нуля';
     }
     return null;
