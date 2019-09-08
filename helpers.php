@@ -238,7 +238,7 @@ function validate_correct_length($str, $min = 1, $max = 128)
  */
 function validate_positive_integer($number)
 {
-    if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) <= 1) {
+    if (!is_numeric($number) || boolval(fmod($number, 1)) || intval($number) < 1) {
         return 'Значение должно быть целым и больше нуля';
     }
     return null;
@@ -386,4 +386,36 @@ function invalid_class($name, $errors, $class='form__item--invalid') {
     return (isset($errors[$name])) ? $class : '';
 }
 
+/**
+ * @param string $value
+ * @return float
+ */
+function get_float_from_currency_string($value) {
+    return floatval(preg_replace('/[^\d.]+/', '', $value));
+}
+
+/**
+ * @param $date
+ * @return string
+ * @throws Exception
+ */
+function get_human_readable_date($date)
+{
+    try {
+        $date = new DateTime($date);
+    } catch (Exception $e) {
+        return $date;
+    }
+    $now = new DateTime();
+    $interval = $date->diff($now);
+    if ($interval->days > 1) {
+        return $date->format('d.m.Y в h:i');
+    }
+    if ($interval->h >= 1) {
+        $word =  get_noun_plural_form($interval->h, 'час', 'часа', 'часов');
+        return "{$interval->h} {$word} назад";
+    }
+    $word =  get_noun_plural_form($interval->m, 'минуту', 'минуты', 'минут');
+    return "{$interval->m} {$word} назад";
+}
 

@@ -23,3 +23,12 @@ $layout_data = [
     'user_name' => $user_name,
     'is_auth' => $is_auth,
 ];
+
+/* set winners */
+$sql = 'UPDATE lots INNER JOIN (SELECT bets.lot, bets.creator
+                        from bets
+                                 INNER JOIN (SELECT MAX(date) AS date, lot FROM bets GROUP BY lot) w
+                                            ON w.lot = bets.lot AND w.date = bets.date) u ON u.lot = lots.id
+SET lots.winner = u.creator
+WHERE DATEDIFF(lots.expiry_date, CURDATE()) <= 0 AND lots.winner IS NULL';
+$link->query($sql);

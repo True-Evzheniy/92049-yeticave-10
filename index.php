@@ -1,11 +1,11 @@
 <?php
 require_once('./init.php');
-$lots = $link->query("SELECT 
+$lots = $link->query("SELECT DISTINCT
         lots.id,
         picture,
         lots.name,
         start_price as price,
-        picture, amount,
+        picture,
         c.name as category,
         expiry_date
 FROM lots
