@@ -1,18 +1,20 @@
 <?php
 require_once('./init.php');
-$lots = $link->query("SELECT DISTINCT
-        lots.id,
-        picture,
-        lots.name,
-        start_price as price,
-        picture,
-        c.name as category,
-        expiry_date
+$lots = $link->query("SELECT
+    COALESCE(MAX(bets.amount), lots.start_price) price,
+    lots.id,
+    lots.name,
+    picture,
+    description,
+    c.name as category,
+    expiry_date,
+    COUNT(bets.id) as bet_count
 FROM lots
-    LEFT JOIN bets ON lots.id = bets.lot
-    LEFT JOIN categories c ON lots.category = c.id
+     LEFT JOIN bets ON lots.id = bets.lot
+     LEFT JOIN categories c ON lots.category = c.id
 WHERE expiry_date > NOW()
-ORDER BY lots.id DESC;");
+GROUP BY bets.lot, lots.id
+ORDER BY lots.id DESC");
 if ($lots) {
     $lots = $lots->fetch_all(MYSQLI_ASSOC);
 } else {

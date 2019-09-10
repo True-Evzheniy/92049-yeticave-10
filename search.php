@@ -2,7 +2,7 @@
 require_once('init.php');
 $search = null;
 $lots = [];
-$page_items = 3;
+$page_items = 9;
 $cur_page = $_GET['page'] ?? 1;
 if(isset($_GET['search'])) {
     $search = trim($_GET['search']);
@@ -16,15 +16,14 @@ $sql = "SELECT
     description,
     c.name as category,
     expiry_date,
-    COUNT(bets.id) as bet_count,
-    MATCH(lots.name, lots.description) AGAINST(?) as score
+    COUNT(bets.id) as bet_count
 FROM lots
      LEFT JOIN bets ON lots.id = bets.lot
      LEFT JOIN categories c ON lots.category = c.id
 WHERE MATCH(lots.name, lots.description) AGAINST(?)
 GROUP BY bets.lot, lots.id
-ORDER BY score DESC";
-$stmt = db_get_prepare_stmt($link, $sql, [$search, $search]);
+ORDER BY lots.id DESC";
+$stmt = db_get_prepare_stmt($link, $sql, [$search]);
 $stmt->execute();
 $res = $stmt->get_result();
 if ($res) {
@@ -40,16 +39,15 @@ if ($res) {
     description,
     c.name as category,
     expiry_date,
-    COUNT(bets.id) as bet_count,
-    MATCH(lots.name, lots.description) AGAINST(?) as score
+    COUNT(bets.id) as bet_count
 FROM lots
      LEFT JOIN bets ON lots.id = bets.lot
      LEFT JOIN categories c ON lots.category = c.id
 WHERE MATCH(lots.name, lots.description) AGAINST(?)
 GROUP BY bets.lot, lots.id
-ORDER BY score DESC
+ORDER BY lots.id DESC
 LIMIT ? OFFSET ?";
-    $stmt = db_get_prepare_stmt($link, $sql, [$search, $search, $page_items, $offset]);
+    $stmt = db_get_prepare_stmt($link, $sql, [$search, $page_items, $offset]);
     $stmt->execute();
     $res = $stmt->get_result();
     if ($res) {
