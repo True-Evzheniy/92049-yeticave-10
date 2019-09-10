@@ -442,7 +442,7 @@ function build_pagination_url($path, $page) {
     return "{$path}?{$query}";
 }
 
-function get_serach_title($search, $results) {
+function get_search_title($search, $results) {
     if(!$search) {
         return 'Пустой запрос';
     }
