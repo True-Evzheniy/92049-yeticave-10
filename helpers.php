@@ -419,3 +419,14 @@ function get_human_readable_date($date)
     return "{$interval->m} {$word} назад";
 }
 
+/**
+ * @param $bet_count
+ * @return string
+ */
+function get_amount_label($bet_count) {
+    if($bet_count) {
+        return $bet_count . ' '. get_noun_plural_form($bet_count, 'ставка', 'ставки', 'ставок');
+    }
+    return 'Стартовая цена';
+}
+

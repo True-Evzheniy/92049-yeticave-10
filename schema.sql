@@ -53,6 +53,7 @@ CREATE INDEX winner ON lots(winner);
 CREATE INDEX creator ON lots(creator);
 CREATE INDEX creation_date ON lots(creation_date);
 CREATE INDEX expiry_date ON lots(expiry_date);
+CREATE FULLTEXT INDEX search on lots(name, description);
 
 CREATE INDEX creator ON bets(creator);
 CREATE INDEX lot ON bets(lot);
