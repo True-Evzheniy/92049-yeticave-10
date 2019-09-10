@@ -419,3 +419,36 @@ function get_human_readable_date($date)
     return "{$interval->m} {$word} назад";
 }
 
+/**
+ * @param $bet_count
+ * @return string
+ */
+function get_amount_label($bet_count) {
+    if($bet_count) {
+        return $bet_count . ' '. get_noun_plural_form($bet_count, 'ставка', 'ставки', 'ставок');
+    }
+    return 'Стартовая цена';
+}
+
+/**
+ * @param string $path
+ * @param int $page
+ * @return string
+ */
+function build_pagination_url($path, $page) {
+    $data = $_GET;
+    $data['page'] = $page;
+    $query = http_build_query($data);
+    return "{$path}?{$query}";
+}
+
+function get_search_title($search, $results) {
+    if(!$search) {
+        return 'Пустой запрос';
+    }
+    if(!count($results)) {
+        return "Результатов по запросу «{$search}» не найдено";
+    }
+    return "Результаты поиска по запросу «<span>{$search}</span>»";
+}
+
