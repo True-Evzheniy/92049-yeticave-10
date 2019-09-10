@@ -1,4 +1,4 @@
-<?php if (count($pages) > 1): ?>
+<?php if ($pages_count > 1): ?>
     <ul class="pagination-list">
         <li class="pagination-item pagination-item-prev" <?=($cur_page == $pages[0]) ? 'style="visibility: hidden"': '';?>>
             <a href="<?=build_pagination_url($path, $cur_page - 1) ?>">Назад</a>

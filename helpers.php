@@ -442,3 +442,13 @@ function build_pagination_url($path, $page) {
     return "{$path}?{$query}";
 }
 
+function get_serach_title($search, $results) {
+    if(!$search) {
+        return 'Пустой запрос';
+    }
+    if(!count($results)) {
+        return "Результатов по запросу «{$search}» не найдено";
+    }
+    return "Результаты поиска по запросу «<span>{$search}</span>»";
+}
+
