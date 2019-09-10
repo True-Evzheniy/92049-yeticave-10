@@ -430,3 +430,15 @@ function get_amount_label($bet_count) {
     return 'Стартовая цена';
 }
 
+/**
+ * @param string $path
+ * @param int $page
+ * @return string
+ */
+function build_pagination_url($path, $page) {
+    $data = $_GET;
+    $data['page'] = $page;
+    $query = http_build_query($data);
+    return "{$path}?{$query}";
+}
+
