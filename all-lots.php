@@ -3,23 +3,27 @@ require_once('./init.php');
 
 $lots = [];
 $category = null;
+$category_name = null;
 $page_items = 9;
 $cur_page = $_GET['page'] ?? 1;
 
 if (isset($_GET['category'])) {
     $category = $_GET['category'];
     $category_name = get_category_name($categories, $category);
-    if(!$category_name) {
-        $error_title = '404 Страница не найдена';
-        $error_message = 'Данной категории не существует.';
-        $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
-        $layout_data += [
-            'main_content' => $error_page,
-            'title' => 'Страница не найдена',
-        ];
-        http_response_code(404);
-    }
 };
+
+if(!$category_name) {
+    $error_title = '404 Страница не найдена';
+    $error_message = 'Данной категории не существует.';
+    $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
+    $layout_data += [
+        'main_content' => $error_page,
+        'title' => 'Страница не найдена',
+    ];
+    http_response_code(404);
+    print(include_template('layout.php', $layout_data));
+    exit();
+}
 
 $sql = '
     SELECT * from lots
