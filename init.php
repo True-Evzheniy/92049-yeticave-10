@@ -1,9 +1,11 @@
 <?php
 require_once('./helpers.php');
+require_once('./config.php');
+require_once ('./mail.php');
 session_start();
 date_default_timezone_set("Europe/Moscow");
 
-$link = mysqli_connect('localhost', 'root', 'root', 'yeticave');
+$link = mysqli_connect($config['db_host'], $config['db_user'], $config['db_password'], $config['db_name']);
 $link->set_charset('utf-8');
 
 $categories = $link->query("SELECT * FROM categories;");
@@ -24,11 +26,5 @@ $layout_data = [
     'is_auth' => $is_auth,
 ];
 
-/* set winners */
-$sql = 'UPDATE lots INNER JOIN (SELECT bets.lot, bets.creator
-                        from bets
-                                 INNER JOIN (SELECT MAX(date) AS date, lot FROM bets GROUP BY lot) w
-                                            ON w.lot = bets.lot AND w.date = bets.date) u ON u.lot = lots.id
-SET lots.winner = u.creator
-WHERE DATEDIFF(lots.expiry_date, CURDATE()) <= 0 AND lots.winner IS NULL';
-$link->query($sql);
+$winners = set_winners($link);
+send_email_to_winners($winners, $config['domain']);

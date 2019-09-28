@@ -452,3 +452,32 @@ function get_search_title($search, $results) {
     return "Результаты поиска по запросу «<span>{$search}</span>»";
 }
 
+/**
+ * @param mysqli $link
+ * @param array $expired_lots
+ */
+function set_winners($link) {
+    $sql = "
+        SELECT u.id, u.name, u.email, l.id as lot_id, l.name as lot_name  from users u
+            INNER JOIN bets b ON u.id = b.creator
+            INNER JOIN (SELECT MAX(date) AS date, lot as lot FROM bets GROUP BY lot) w ON w.date = b.date and b.lot = w.lot
+            INNER JOIN lots l ON l.id = w.lot AND DATEDIFF(l.expiry_date, CURDATE()) <= 0 AND l.winner IS NULL";
+    $res = $link->query($sql);
+    $winners = $res->fetch_all(MYSQLI_ASSOC);
+    foreach ($winners as $winner) {
+        set_winner($link, $winner);
+    }
+
+    return $winners;
+}
+
+/**
+ * @param mysqli $link
+ * @param array $winner
+ */
+function set_winner($link, $winner) {
+    var_dump($winner);
+    $sql = "UPDATE lots SET lots.winner = {$winner['id']} WHERE lots.id = {$winner['lot_id']}";
+    $link->query($sql);
+}
+
