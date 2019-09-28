@@ -11,20 +11,20 @@
                 <p class="lot-item__description"><?= $lot['description']; ?></p>
             </div>
             <div class="lot-item__right">
-                <?php if ($visible_form): ?>
-                    <div class="lot-item__state">
-                        <div class="lot-item__timer timer<?= is_close_to($lot['expiry_date']) ? ' timer--finishing': ''; ?>">
-                            <?= get_timer($lot['expiry_date']); ?>
+                <div class="lot-item__state">
+                    <div class="lot-item__timer timer<?= is_close_to($lot['expiry_date']) ? ' timer--finishing': ''; ?>">
+                        <?= get_timer($lot['expiry_date']); ?>
+                    </div>
+                    <div class="lot-item__cost-state">
+                        <div class="lot-item__rate">
+                            <span class="lot-item__amount">Текущая цена</span>
+                            <span class="lot-item__cost"><?= $lot['current_price']; ?></span>
                         </div>
-                        <div class="lot-item__cost-state">
-                            <div class="lot-item__rate">
-                                <span class="lot-item__amount">Текущая цена</span>
-                                <span class="lot-item__cost"><?= $lot['current_price']; ?></span>
-                            </div>
-                            <div class="lot-item__min-cost">
-                                Мин. ставка <span><?= $lot['min_bet']; ?></span>
-                            </div>
+                        <div class="lot-item__min-cost">
+                            Мин. ставка <span><?= $lot['min_bet']; ?></span>
                         </div>
+                    </div>
+                    <?php if ($visible_form): ?>
                         <form class="lot-item__form <?=count($errors) ? 'lot-item__form--invalid' : '';?>" action="/lot.php?id=<?=$_GET['id'] ?? '';?>" method="post" autocomplete="off">
                             <p class="lot-item__form-item form__item <?=invalid_class('cost', $errors)?>">
                                 <label for="cost">Ваша ставка</label>
@@ -33,8 +33,8 @@
                             </p>
                             <button type="submit" class="button">Сделать ставку</button>
                         </form>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
                 <div class="history">
                     <h3>История ставок (<span><?=count($bets);?></span>)</h3>
                     <table class="history__list">
