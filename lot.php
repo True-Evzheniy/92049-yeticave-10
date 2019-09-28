@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $lot = get_lot_by_id($id, $link);
         $bets = get_bets_for_lot($id, $link);
+        $visible_form = false;
     };
 }
 
