@@ -2,6 +2,15 @@
 require_once('init.php');
 if(!$is_auth) {
     header('HTTP/1.0 403 Forbidden');
+    $error_title = '403 Доступ запрещен';
+    $error_message = 'Доступ к странице ставок запрещен неавторизованным пользователям';
+    $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
+    $layout_data += [
+        'main_content' => $error_page,
+        'title' => $error_title,
+    ];
+    http_response_code(403);
+    print(include_template('layout.php', $layout_data));
     exit();
 }
 $user_id = $_SESSION['user']['id'];

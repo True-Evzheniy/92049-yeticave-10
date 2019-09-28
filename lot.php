@@ -18,6 +18,15 @@ $visible_form =
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!$visible_form) {
         header('HTTP/1.0 403 Forbidden');
+        $error_title = '403 Доступ запрещен';
+        $error_message = 'Нет прав на совершение операции';
+        $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
+        $layout_data += [
+            'main_content' => $error_page,
+            'title' => $error_title,
+        ];
+        http_response_code(403);
+        print(include_template('layout.php', $layout_data));
         exit();
     }
     $errors['cost'] =
@@ -41,7 +50,9 @@ if ($lot) {
         'title' => $lot['name'],
     ];
 } else {
-    $error_page = include_template('404.php', compact('navigation'));
+    $error_title = '404 Страница не найдена';
+    $error_message = 'Данной страницы не существует на сайте.';
+    $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
     $layout_data += [
         'main_content' => $error_page,
         'title' => 'Страница не найдена',
