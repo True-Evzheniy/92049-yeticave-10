@@ -4,7 +4,7 @@ $search = null;
 $lots = [];
 $page_items = 9;
 $cur_page = $_GET['page'] ?? 1;
-if(isset($_GET['search'])) {
+if (isset($_GET['search'])) {
     $search = trim($_GET['search']);
 }
 

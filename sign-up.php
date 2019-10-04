@@ -1,7 +1,7 @@
 <?php
 require_once('./init.php');
 $errors = [];
-if($is_auth) {
+if ($is_auth) {
     header('HTTP/1.0 403 Forbidden');
     $error_title = '403 Доступ запрещен';
     $error_message = 'Доступ к странице регистрации запрещен авторизованным пользователям';

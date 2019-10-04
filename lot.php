@@ -16,7 +16,7 @@ $visible_form =
     !is_last_betting_user_current($bets);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if(!$visible_form) {
+    if (!$visible_form) {
         header('HTTP/1.0 403 Forbidden');
         $error_title = '403 Доступ запрещен';
         $error_message = 'Нет прав на совершение операции';
@@ -147,7 +147,8 @@ function validate_min_bet($value, $min_bet)
  * @param $lot
  * @return bool
  */
-function is_active_lot($lot) {
+function is_active_lot($lot)
+{
     $finish_date = strtotime($lot['expiry_date']);
     $now = time();
     return $now < $finish_date;
@@ -158,8 +159,9 @@ function is_active_lot($lot) {
  * @param $is_auth
  * @return bool
  */
-function is_user_creator($lot, $is_auth) {
-    if(isset($_SESSION['user'])) {
+function is_user_creator($lot, $is_auth)
+{
+    if (isset($_SESSION['user'])) {
         return $is_auth && $lot['creator'] == $_SESSION['user']['id'];
     }
     return false;
@@ -169,7 +171,8 @@ function is_user_creator($lot, $is_auth) {
  * @param array $bets
  * @return bool
  */
-function is_last_betting_user_current($bets) {
+function is_last_betting_user_current($bets)
+{
     if (count($bets) && isset($_SESSION['user'])) {
         return $bets[0]['creator'] == $_SESSION['user']['id'];
     }

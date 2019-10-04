@@ -1,7 +1,8 @@
 <?php
 require_once './vendor/autoload.php';
 
-function send_email_to_winners($winners, $domain) {
+function send_email_to_winners($winners, $domain)
+{
     $transport = new Swift_SmtpTransport("phpdemo.ru", 25);
     $transport->setUsername("keks@phpdemo.ru");
     $transport->setPassword("htmlacademy");

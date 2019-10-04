@@ -12,7 +12,7 @@ if (isset($_GET['category'])) {
     $category_name = get_category_name($categories, $category);
 };
 
-if(!$category_name) {
+if (!$category_name) {
     $error_title = '404 Страница не найдена';
     $error_message = 'Данной категории не существует.';
     $error_page = include_template('error.php', compact('navigation', 'error_title', 'error_message'));
@@ -77,11 +77,12 @@ $layout_data += [
 
 print(include_template('layout.php', $layout_data));
 
-function get_category_name($categories, $symbol_code) {
+function get_category_name($categories, $symbol_code)
+{
     $name = null;
     foreach ($categories as $item) {
-        if($item['symbol_code'] === $symbol_code) {
-            $name =  $item['name'];
+        if ($item['symbol_code'] === $symbol_code) {
+            $name = $item['name'];
         }
     }
     return $name;

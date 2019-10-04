@@ -1,6 +1,6 @@
 <?php
 require_once('init.php');
-if(!$is_auth) {
+if (!$is_auth) {
     header('HTTP/1.0 403 Forbidden');
     $error_title = '403 Доступ запрещен';
     $error_message = 'Доступ к странице ставок запрещен неавторизованным пользователям';
@@ -50,34 +50,37 @@ function get_bets_by_user_id($link, $id)
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
     $stmt->execute();
     $res = $stmt->get_result();
-    if($res) {
+    if ($res) {
         return $res->fetch_all(MYSQLI_ASSOC);
     }
     return null;
 }
 
-function get_bet_modifier($win, $finished) {
-    if($win) {
+function get_bet_modifier($win, $finished)
+{
+    if ($win) {
         return 'rates__item--win';
     }
     return $finished ? 'rates__item--end' : '';
 }
 
-function get_timer_modifier($win, $finished, $finishing) {
-    if($win) {
+function get_timer_modifier($win, $finished, $finishing)
+{
+    if ($win) {
         return 'timer--win';
     }
-    if($finished) {
+    if ($finished) {
         return 'timer--end';
     }
     return $finishing ? 'timer--finishing' : '';
 }
 
-function get_timer_label($win, $finished, $date) {
-    if($win) {
+function get_timer_label($win, $finished, $date)
+{
+    if ($win) {
         return 'Ставка выиграла';
     }
-    if($finished) {
+    if ($finished) {
         return 'Торги окончены';
     }
     return get_timer($date);

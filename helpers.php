@@ -13,7 +13,8 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date): bool
+{
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
 
@@ -29,7 +30,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
@@ -46,11 +48,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
+            } else if (is_string($value)) {
                 $type = 's';
-            }
-            else if (is_double($value)) {
+            } else if (is_double($value)) {
                 $type = 'd';
             }
 
@@ -96,9 +96,9 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
-    $number = (int) $number;
+    $number = (int)$number;
     $mod10 = $number % 10;
     $mod100 = $number % 100;
 
@@ -126,7 +126,8 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
+function include_template($name, array $data = [])
+{
     $name = 'templates/' . $name;
     $result = '';
 
@@ -148,7 +149,8 @@ function include_template($name, array $data = []) {
  * @param float|integer $price
  * @return string
  */
-function format_price($price) {
+function format_price($price)
+{
     $price = ceil($price);
     $price = number_format($price, 0, '.', ' ');
     $price .= ' ₽';
@@ -161,12 +163,13 @@ function format_price($price) {
  * @param array $array
  * @return array
  */
-function make_safe_data(array $array) {
-    return array_map( function ($item) {
-        if(is_array($item)){
+function make_safe_data(array $array)
+{
+    return array_map(function ($item) {
+        if (is_array($item)) {
             return make_safe_data($item);
         }
-        if(is_string($item)) {
+        if (is_string($item)) {
             return htmlspecialchars($item);
         }
         return $item;
@@ -178,7 +181,8 @@ function make_safe_data(array $array) {
  * @param $date_str
  * @return array
  */
-function get_time_until($date_str) {
+function get_time_until($date_str)
+{
     $finish_date = strtotime($date_str);
     $now = time();
     $diff = $finish_date - $now;
@@ -198,7 +202,8 @@ function get_time_until($date_str) {
  * @param $date_str
  * @return bool
  */
-function is_close_to($date_str) {
+function is_close_to($date_str)
+{
     [$hours] = get_time_until($date_str);
 
     return !boolval($hours);
@@ -209,7 +214,8 @@ function is_close_to($date_str) {
  * @param array $time
  * @return string
  */
-function get_timer($date_str) {
+function get_timer($date_str)
+{
     [$hours, $minutes] = get_time_until($date_str);
     $padded_hours = sprintf("%02d", $hours);
     $padded_minutes = sprintf("%02d", $minutes);
@@ -256,7 +262,7 @@ function validate_date($date)
     try {
         $input = new DateTime($date);
         $tomorrow = new DateTime('tomorrow');
-        if($input < $tomorrow) {
+        if ($input < $tomorrow) {
             return 'Введите дату не позднее ' . $tomorrow->format('Y-m-d');
         }
     } catch (Exception $error) {
@@ -270,11 +276,12 @@ function validate_date($date)
  * @param string $field
  * @return string|null
  */
-function check_user_file($field) {
-    if(isset($_FILES[$field]) && file_exists($_FILES[$field]['tmp_name'])){
+function check_user_file($field)
+{
+    if (isset($_FILES[$field]) && file_exists($_FILES[$field]['tmp_name'])) {
         $tmp_name = $_FILES[$field]['tmp_name'];
         $mime_type = mime_content_type($tmp_name);
-        if(!check_mime_type($mime_type)) {
+        if (!check_mime_type($mime_type)) {
             return 'Загрузите изображение в формате png или jpg';
         }
     } else {
@@ -287,7 +294,8 @@ function check_user_file($field) {
  * @param array $file
  * @return string
  */
-function store_file($file) {
+function store_file($file)
+{
     $tmp_name = $file['tmp_name'];
     $mime_type = mime_content_type($tmp_name);
     $file_name = uniqid() . get_extension_by_mime($mime_type);
@@ -310,7 +318,8 @@ function get_post_val($name)
  * @param string $type
  * @return string
  */
-function get_extension_by_mime($type) {
+function get_extension_by_mime($type)
+{
     $map = [
         'image/png' => '.png',
         'image/jpeg' => '.jpg'
@@ -358,7 +367,8 @@ function validate_email($name)
  * @param $link mysqli
  * @return bool
  */
-function is_uniq_user_email($email, $link) {
+function is_uniq_user_email($email, $link)
+{
     $safe_email = $link->real_escape_string($email);
     $res = $link->query("SELECT id FROM users WHERE email = '{$safe_email}'");
     return $res->num_rows === 0;
@@ -369,8 +379,9 @@ function is_uniq_user_email($email, $link) {
  * @param $link mysqli
  * @return string|null
  */
-function validate_uniq_email($email, $link) {
-    if(!is_uniq_user_email($email, $link)) {
+function validate_uniq_email($email, $link)
+{
+    if (!is_uniq_user_email($email, $link)) {
         return 'Пользователь с этим email уже зарегистрирован';
     }
     return null;
@@ -382,7 +393,8 @@ function validate_uniq_email($email, $link) {
  * @param string $class
  * @return string
  */
-function invalid_class($name, $errors, $class='form__item--invalid') {
+function invalid_class($name, $errors, $class = 'form__item--invalid')
+{
     return (isset($errors[$name])) ? $class : '';
 }
 
@@ -390,7 +402,8 @@ function invalid_class($name, $errors, $class='form__item--invalid') {
  * @param string $value
  * @return float
  */
-function get_float_from_currency_string($value) {
+function get_float_from_currency_string($value)
+{
     return floatval(preg_replace('/[^\d.]+/', '', $value));
 }
 
@@ -412,10 +425,10 @@ function get_human_readable_date($date)
         return $date->format('d.m.Y в h:i');
     }
     if ($interval->h >= 1) {
-        $word =  get_noun_plural_form($interval->h, 'час', 'часа', 'часов');
+        $word = get_noun_plural_form($interval->h, 'час', 'часа', 'часов');
         return "{$interval->h} {$word} назад";
     }
-    $word =  get_noun_plural_form($interval->m, 'минуту', 'минуты', 'минут');
+    $word = get_noun_plural_form($interval->m, 'минуту', 'минуты', 'минут');
     return "{$interval->m} {$word} назад";
 }
 
@@ -423,9 +436,10 @@ function get_human_readable_date($date)
  * @param $bet_count
  * @return string
  */
-function get_amount_label($bet_count) {
-    if($bet_count) {
-        return $bet_count . ' '. get_noun_plural_form($bet_count, 'ставка', 'ставки', 'ставок');
+function get_amount_label($bet_count)
+{
+    if ($bet_count) {
+        return $bet_count . ' ' . get_noun_plural_form($bet_count, 'ставка', 'ставки', 'ставок');
     }
     return 'Стартовая цена';
 }
@@ -435,18 +449,20 @@ function get_amount_label($bet_count) {
  * @param int $page
  * @return string
  */
-function build_pagination_url($path, $page) {
+function build_pagination_url($path, $page)
+{
     $data = $_GET;
     $data['page'] = $page;
     $query = http_build_query($data);
     return "{$path}?{$query}";
 }
 
-function get_search_title($search, $results) {
-    if(!$search) {
+function get_search_title($search, $results)
+{
+    if (!$search) {
         return 'Пустой запрос';
     }
-    if(!count($results)) {
+    if (!count($results)) {
         return "Результатов по запросу «{$search}» не найдено";
     }
     return "Результаты поиска по запросу «<span>{$search}</span>»";
@@ -456,7 +472,8 @@ function get_search_title($search, $results) {
  * @param mysqli $link
  * @param array $expired_lots
  */
-function set_winners($link) {
+function set_winners($link)
+{
     $sql = "
         SELECT u.id, u.name, u.email, l.id as lot_id, l.name as lot_name  from users u
             INNER JOIN bets b ON u.id = b.creator
@@ -475,7 +492,8 @@ function set_winners($link) {
  * @param mysqli $link
  * @param array $winner
  */
-function set_winner($link, $winner) {
+function set_winner($link, $winner)
+{
     var_dump($winner);
     $sql = "UPDATE lots SET lots.winner = {$winner['id']} WHERE lots.id = {$winner['lot_id']}";
     $link->query($sql);
