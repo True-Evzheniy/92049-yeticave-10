@@ -17,8 +17,6 @@ GROUP BY bets.lot, lots.id
 ORDER BY lots.id DESC");
 if ($lots) {
     $lots = $lots->fetch_all(MYSQLI_ASSOC);
-} else {
-    print_r($link->error);
 }
 
 $lots = make_safe_data($lots);
