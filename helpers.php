@@ -494,7 +494,6 @@ function set_winners($link)
  */
 function set_winner($link, $winner)
 {
-    var_dump($winner);
     $sql = "UPDATE lots SET lots.winner = {$winner['id']} WHERE lots.id = {$winner['lot_id']}";
     $link->query($sql);
 }
