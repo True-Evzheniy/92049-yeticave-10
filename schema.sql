@@ -13,17 +13,17 @@ CREATE TABLE categories
 
 CREATE TABLE lots
 (
-    id            INT AUTO_INCREMENT PRIMARY KEY,
-    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    name          VARCHAR(128) NOT NULL,
-    description   TINYTEXT     NOT NULL,
-    picture       VARCHAR(128) NOT NULL,
-    start_price   INT          NOT NULL,
-    expiry_date   DATE         NOT NULL,
-    bet_step      INT          NOT NULL,
-    creator       INT          NOT NULL,
-    winner        INT,
-    category      INT          NOT NULL
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    creation_date  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    name           VARCHAR(128) NOT NULL,
+    description    TINYTEXT     NOT NULL,
+    picture        VARCHAR(128) NOT NULL,
+    start_price    INT          NOT NULL,
+    expiry_date    DATE         NOT NULL,
+    bet_step       INT          NOT NULL,
+    user_id        INT          NOT NULL,
+    winner_user_id INT,
+    category_id    INT          NOT NULL
 );
 
 CREATE TABLE bets
@@ -31,8 +31,8 @@ CREATE TABLE bets
     id      INT AUTO_INCREMENT PRIMARY KEY,
     date    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     amount  INT NOT NULL,
-    creator INT NOT NULL,
-    lot     INT NOT NULL
+    user_id INT NOT NULL,
+    lot_id  INT NOT NULL
 );
 
 CREATE TABLE users
@@ -48,15 +48,15 @@ CREATE TABLE users
 
 CREATE INDEX symbol_code ON categories (symbol_code);
 
-CREATE INDEX category ON lots (category);
-CREATE INDEX winner ON lots (winner);
-CREATE INDEX creator ON lots (creator);
+CREATE INDEX category ON lots (category_id);
+CREATE INDEX winner ON lots (winner_user_id);
+CREATE INDEX creator ON lots (user_id);
 CREATE INDEX creation_date ON lots (creation_date);
 CREATE INDEX expiry_date ON lots (expiry_date);
 CREATE FULLTEXT INDEX search on lots (name, description);
 
-CREATE INDEX creator ON bets (creator);
-CREATE INDEX lot ON bets (lot);
+CREATE INDEX creator ON bets (user_id);
+CREATE INDEX lot ON bets (lot_id);
 CREATE INDEX amount ON bets (amount);
 
 
