@@ -211,7 +211,7 @@ function is_close_to($date_str)
 
 /**
  * Возвращает формат таймера
- * @param array $time
+ * @param $date_str
  * @return string
  */
 function get_timer($date_str)
@@ -470,7 +470,7 @@ function get_search_title($search, $results)
 
 /**
  * @param mysqli $link
- * @param array $expired_lots
+ * @return mixed
  */
 function set_winners($link)
 {

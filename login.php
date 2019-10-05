@@ -54,6 +54,7 @@ function validate_exited_email($email, $link)
  * @param array $login_form
  * @param mysqli $link
  * @param $errors
+ * @return string|null
  */
 function process_password($key, &$login_form, $link, $errors)
 {
