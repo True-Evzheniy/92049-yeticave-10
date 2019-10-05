@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $lot['picture'] = store_file($_FILES['userfile']);
 
     $sql = 'INSERT INTO lots (creation_date, name, description, picture, start_price, expiry_date, bet_step, creator, category)
-                VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
+                VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
 
     $stmt = db_get_prepare_stmt($link, $sql, array(
         $lot['name'],
@@ -83,6 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $lot['start_price'],
         $lot['expiry_date'],
         $lot['bet_step'],
+        $_SESSION['user']['id'],
         $lot['category'],
     ));
     $res = $stmt->execute();
