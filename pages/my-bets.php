@@ -1,5 +1,5 @@
 <?php
-require_once('init.php');
+require_once('../init.php');
 if (!$is_auth) {
     header('HTTP/1.0 403 Forbidden');
     $error_title = '403 Доступ запрещен';
@@ -45,7 +45,7 @@ function get_bets_by_user_id($link, $id)
             INNER JOIN lots l ON b.lot_id = l.id
             INNER JOIN categories c on l.category_id = c.id
             WHERE 
-                amount IN (SELECT MAX(amount) as amount from bets group by b.lot_id) 
+                amount IN (SELECT MAX(amount) as amount from bets group by bets.lot_id) 
                 AND b.user_id = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
     $stmt->execute();

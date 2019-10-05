@@ -10,7 +10,7 @@
                             <img src="<?=$bet['picture'];?>" width="54" height="40" alt="<?= $bet['name']?>">
                         </div>
                         <div>
-                            <h3 class="rates__title"><a href="/lot.php?id=<?= $bet['lot']?>"><?= $bet['name']?></a></h3>
+                            <h3 class="rates__title"><a href="/pages/lot.php?id=<?= $bet['lot']?>"><?= $bet['name']?></a></h3>
                             <?php if ($bet['contacts']): ?>
                                 <p><?= $bet['contacts']; ?></p>
                             <?php endif; ?>

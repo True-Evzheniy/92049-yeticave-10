@@ -1,5 +1,5 @@
 <?php
-require_once('init.php');
+require_once('../init.php');
 $search = null;
 $lots = [];
 $page_items = 9;

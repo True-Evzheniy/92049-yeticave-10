@@ -128,7 +128,7 @@ function get_noun_plural_form(int $number, string $one, string $two, string $man
  */
 function include_template($name, array $data = [])
 {
-    $name = 'templates/' . $name;
+    $name = __DIR__ . '/templates/' . $name;
     $result = '';
 
     if (!is_readable($name)) {
@@ -299,7 +299,7 @@ function store_file($file)
     $tmp_name = $file['tmp_name'];
     $mime_type = mime_content_type($tmp_name);
     $file_name = uniqid() . get_extension_by_mime($mime_type);
-    $path = 'uploads/' . $file_name;
+    $path = '../uploads/' . $file_name;
     move_uploaded_file($tmp_name, $path);
     return $path;
 }

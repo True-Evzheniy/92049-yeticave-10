@@ -1,5 +1,5 @@
 <?php
-require_once('./init.php');
+require_once('../init.php');
 $errors = [];
 $id = null;
 $bets = null;
@@ -108,7 +108,7 @@ function get_lot_by_id($id, $link)
  */
 function get_bets_for_lot($id, $link)
 {
-    $sql = "SELECT amount, name, date, user_id as creator FROM bets 
+    $sql = "SELECT amount, name, date, user_id FROM bets 
     INNER JOIN users ON users.id = bets.user_id 
     WHERE lot_id = ? ORDER BY date DESC;";
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
@@ -162,7 +162,7 @@ function is_active_lot($lot)
 function is_user_creator($lot, $is_auth)
 {
     if (isset($_SESSION['user'])) {
-        return $is_auth && $lot['creator'] == $_SESSION['user']['id'];
+        return $is_auth && $lot['user_id'] == $_SESSION['user']['id'];
     }
     return false;
 }
@@ -174,7 +174,7 @@ function is_user_creator($lot, $is_auth)
 function is_last_betting_user_current($bets)
 {
     if (count($bets) && isset($_SESSION['user'])) {
-        return $bets[0]['creator'] == $_SESSION['user']['id'];
+        return $bets[0]['user_id'] == $_SESSION['user']['id'];
     }
     return false;
 }

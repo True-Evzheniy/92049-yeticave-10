@@ -1,5 +1,5 @@
 <?php
-require_once('init.php');
+require_once('../init.php');
 $errors = [];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login_form = $_POST;

@@ -1,5 +1,5 @@
 <?php
-require_once('./init.php');
+require_once('../init.php');
 $errors = [];
 if ($is_auth) {
     header('HTTP/1.0 403 Forbidden');

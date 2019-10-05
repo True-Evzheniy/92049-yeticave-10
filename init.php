@@ -1,7 +1,7 @@
 <?php
-require_once('./helpers.php');
-require_once('./config.php');
-require_once('./mail.php');
+require_once(__DIR__ . '/helpers.php');
+require_once(__DIR__ . '/config.php');
+require_once(__DIR__ . '/mail.php');
 session_start();
 date_default_timezone_set("Europe/Moscow");
 
