@@ -1,5 +1,5 @@
 <?php
-require_once('./init.php');
+require_once('functions/init.php');
 $lots = $link->query("SELECT
     COALESCE(MAX(bets.amount), lots.start_price) price,
     lots.id,

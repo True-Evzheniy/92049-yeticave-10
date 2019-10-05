@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-function send_email_to_winners($winners, $domain)
+function send_email_to_winners($winners, $domain, $config)
 {
-    $transport = new Swift_SmtpTransport("phpdemo.ru", 25);
-    $transport->setUsername("keks@phpdemo.ru");
-    $transport->setPassword("htmlacademy");
+    $transport = new Swift_SmtpTransport($config['host'], $config['port']);
+    $transport->setUsername($config['user']);
+    $transport->setPassword($config['password']);
     $mailer = new Swift_Mailer($transport);
 
     foreach ($winners as $winner) {
@@ -15,9 +15,9 @@ function send_email_to_winners($winners, $domain)
         $message->setBcc([$winner['email'] => $winner['name']]);
         $messageBody = include_template('email.php', [
             'user_name' => $winner['name'],
-            'lot_link' => "http://{$domain}/lot.php?id={$winner['lot_id']}",
+            'lot_link' => "http://{$domain}/pages/lot.php?id={$winner['lot_id']}",
             'lot_name' => $winner['lot_name'],
-            'my_bets' => "http://{$domain}/my-bets.php"
+            'my_bets' => "http://{$domain}/pages/my-bets.php"
         ]);
 
         $message->setBody($messageBody, 'text/html');

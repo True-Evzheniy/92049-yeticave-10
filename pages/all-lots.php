@@ -1,5 +1,5 @@
 <?php
-require_once('../init.php');
+require_once('../functions/init.php');
 
 $lots = [];
 $category = null;
