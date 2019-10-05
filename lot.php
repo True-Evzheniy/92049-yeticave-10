@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         validate_currency($_POST['cost']) ??
         validate_min_bet($_POST['cost'], $lot['min_bet']);
     if ($errors['cost'] === null) {
-        $sql = "INSERT INTO bets(amount, creator, lot) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO bets(amount, user_id, lot_id) VALUES (?, ?, ?)";
         $stmt = db_get_prepare_stmt($link, $sql, [get_float_from_currency_string($_POST['cost']), $_SESSION['user']['id'], $id]);
         $stmt->execute();
         $lot = get_lot_by_id($id, $link);
@@ -81,10 +81,10 @@ function get_lot_by_id($id, $link)
                picture,
                categories.name as category,
                description,
-               lots.creator
+               lots.user_id
         FROM lots
-        LEFT JOIN categories ON lots.category = categories.id
-        LEFT JOIN bets b ON lots.id = b.lot
+        LEFT JOIN categories ON lots.category_id = categories.id
+        LEFT JOIN bets b ON lots.id = b.lot_id
         WHERE lots.id = ?
         GROUP BY lots.id;";
 
@@ -108,9 +108,9 @@ function get_lot_by_id($id, $link)
  */
 function get_bets_for_lot($id, $link)
 {
-    $sql = "SELECT amount, name, date, creator FROM bets 
-    INNER JOIN users ON users.id = bets.creator 
-    WHERE lot = ? ORDER BY date DESC;";
+    $sql = "SELECT amount, name, date, user_id as creator FROM bets 
+    INNER JOIN users ON users.id = bets.user_id 
+    WHERE lot_id = ? ORDER BY date DESC;";
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
     $stmt->execute();
     $res = $stmt->get_result();

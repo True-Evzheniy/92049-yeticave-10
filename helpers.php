@@ -476,9 +476,9 @@ function set_winners($link)
 {
     $sql = "
         SELECT u.id, u.name, u.email, l.id as lot_id, l.name as lot_name  from users u
-            INNER JOIN bets b ON u.id = b.creator
-            INNER JOIN (SELECT MAX(date) AS date, lot as lot FROM bets GROUP BY lot) w ON w.date = b.date and b.lot = w.lot
-            INNER JOIN lots l ON l.id = w.lot AND DATEDIFF(l.expiry_date, CURDATE()) <= 0 AND l.winner IS NULL";
+            INNER JOIN bets b ON u.id = b.user_id
+            INNER JOIN (SELECT MAX(date) AS date, lot_id FROM bets GROUP BY lot_id) w ON w.date = b.date and b.lot_id = w.lot_id
+            INNER JOIN lots l ON l.id = w.lot_id AND DATEDIFF(l.expiry_date, CURDATE()) <= 0 AND l.winner_user_id IS NULL";
     $res = $link->query($sql);
     $winners = $res->fetch_all(MYSQLI_ASSOC);
     foreach ($winners as $winner) {
@@ -494,7 +494,7 @@ function set_winners($link)
  */
 function set_winner($link, $winner)
 {
-    $sql = "UPDATE lots SET lots.winner = {$winner['id']} WHERE lots.id = {$winner['lot_id']}";
+    $sql = "UPDATE lots SET lots.winner_user_id = {$winner['id']} WHERE lots.id = {$winner['lot_id']}";
     $link->query($sql);
 }
 

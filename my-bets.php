@@ -30,23 +30,23 @@ function get_bets_by_user_id($link, $id)
 {
     $sql = "SELECT 
                 b.amount, 
-                b.lot,
+                b.lot_id as lot,
                 b.date,
                 l.expiry_date,
                 l.name,
                 l.picture,
                 c.name as category,
-                l.winner = b.creator as win,
+                l.winner_user_id = b.user_id as win,
                 DATEDIFF(l.expiry_date, CURDATE()) <= 0 as finished,
-                CASE WHEN l.winner IS NOT NULL
-                    THEN (SELECT users.contacts FROM users WHERE users.id = l.creator)
+                CASE WHEN l.winner_user_id IS NOT NULL
+                    THEN (SELECT users.contacts FROM users WHERE users.id = l.user_id)
                 END contacts
             FROM bets b
-            INNER JOIN lots l ON b.lot = l.id
-            INNER JOIN categories c on l.category = c.id
+            INNER JOIN lots l ON b.lot_id = l.id
+            INNER JOIN categories c on l.category_id = c.id
             WHERE 
-                amount IN (SELECT MAX(amount) as amount from bets group by lot) 
-                AND b.creator = ?";
+                amount IN (SELECT MAX(amount) as amount from bets group by b.lot_id) 
+                AND b.user_id = ?";
     $stmt = db_get_prepare_stmt($link, $sql, [$id]);
     $stmt->execute();
     $res = $stmt->get_result();

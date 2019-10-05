@@ -27,7 +27,7 @@ if (!$category_name) {
 
 $sql = '
     SELECT * from lots
-        LEFT JOIN categories c ON lots.category = c.id
+        LEFT JOIN categories c ON lots.category_id = c.id
     WHERE c.symbol_code = ?';
 $stmt = db_get_prepare_stmt($link, $sql, [$category]);
 $stmt->execute();
@@ -50,10 +50,10 @@ if ($res) {
         expiry_date,
         COUNT(bets.id) as bet_count
     FROM lots
-        LEFT JOIN bets ON lots.id = bets.lot
-        LEFT JOIN categories c ON lots.category = c.id
+        LEFT JOIN bets ON lots.id = bets.lot_id
+        LEFT JOIN categories c ON lots.category_id = c.id
     WHERE c.symbol_code = ?
-    GROUP BY bets.lot, lots.id
+    GROUP BY bets.lot_id, lots.id
     ORDER BY lots.id DESC
     LIMIT ? OFFSET ?';
     $stmt = db_get_prepare_stmt($link, $sql, [$category, $page_items, $offset]);
